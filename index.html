@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div
+    class="container"
+    x-data="Posts()"
+    x-init="fetchPosts"
+  >
+    <div class="posts">
+      <template x-for="post in posts" :key="post.id">
+        <div class="post-card">
+          <h3 x-text="post.title"></h2>
+          <p x-text="post.body"></p>
+          <a href="'/post/' + post.id" />
+        </div>
+      </template>
+    </div>
+  </div>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+  <script>
+    function Posts () {
+      return {
+        posts: [],
+
+        async fetchPosts () {
+          try {
+            const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+            this.posts = await res.json();
+          } catch (err) {
+            console.error(`Failed to fetch posts: ${err}`);
+          }
+        },
+      }
+    };
+  </script>
+</body>
+</html>
